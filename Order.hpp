@@ -1,3 +1,6 @@
+#ifndef ORDER_HPP
+#define ORDER_HPP
+
 class Order {
 
 private:
@@ -16,3 +19,5 @@ public:
     float getPrice();
     int getTimestamp();
 };
+
+#endif
