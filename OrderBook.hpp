@@ -1,10 +1,13 @@
 #include "Order.hpp"
 #include "Transaction.hpp"
+#include "OrderList.hpp"
 
 class OrderBook {
 
 private:
 
+    OrderList buyOrders;
+    OrderList sellOrders;
     // Estruturas internas escolhidas pelos alunos
     // para armazenar ordens de compra, venda e transações
 
