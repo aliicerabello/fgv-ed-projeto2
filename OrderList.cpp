@@ -65,3 +65,45 @@ bool OrderList::remove(int id){
     return false;
 
 }
+
+Order OrderList::getMax(){
+
+    if (this->head == nullptr){
+        throw "erro";
+    }
+
+    OrderNode *atual = this->head;
+    OrderNode *melhor = nullptr;
+
+    while (atual != nullptr){
+        if (melhor == nullptr || atual->order.getPrice() > melhor->order.getPrice()){
+            melhor = atual;
+        }
+        atual = atual->next;
+    }
+
+    return melhor->order;
+
+}
+
+Order OrderList::getMin(){
+
+    if (this->head == nullptr){
+        throw "erro";
+    }
+
+    OrderNode *atual = this->head;
+    OrderNode *melhor = nullptr;
+
+    while (atual != nullptr){
+        if (melhor == nullptr || atual->order.getPrice() < melhor->order.getPrice()){
+            melhor = atual;
+        }
+        atual = atual->next;
+    }
+
+    return melhor->order;
+
+}
+
+

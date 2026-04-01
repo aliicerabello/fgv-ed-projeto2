@@ -20,8 +20,8 @@ public:
 
     bool add(Order o); //adiciona no final
     bool remove(int id);
-    Order *getMaxBuyer();
-    Order *getMinSeller();
+    Order getMax();
+    Order getMin(); //seller
 
 };
 
