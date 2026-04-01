@@ -5,6 +5,8 @@
 struct OrderNode{
     Order order;
     OrderNode *next;
+
+    OrderNode();
 };
 
 class OrderList{
