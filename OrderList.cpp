@@ -1,10 +1,6 @@
 #include "OrderList.hpp"
-#include <stdio.h>
+#include <iostream>
 
-OrderNode::OrderNode(){
-    this->order = order;
-    this->next = next;
-}
 //construtor
 OrderList::OrderList(){ 
     head = nullptr;
@@ -22,6 +18,11 @@ OrderList::~OrderList(){
 
     }
 
+}
+
+OrderNode::OrderNode(){
+    this->order = order;
+    this->next = next;
 }
 
 bool OrderList::add(Order o){

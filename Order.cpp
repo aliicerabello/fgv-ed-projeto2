@@ -1,16 +1,18 @@
 #include "Order.hpp"
 using namespace std;
 
-//construtor
-Order::Order(int id_, char type_, float price_, int timestamp_){
+// constructor
+Order::Order(){
+}
 
+Order::Order(int id_, char type_, float price_, int timestamp_){
+    this->id = id_;
     this->type = type_;
     this->price = price_;
     this->timestamp = timestamp_;
-    this->id = id_;
 }
 
-//destrutor
+// destructor
 Order::~Order(){
 }
 

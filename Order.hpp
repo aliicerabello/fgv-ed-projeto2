@@ -11,8 +11,7 @@ private:
 
 public:
 
-    Order();
-
+    Order(); //sobrecarga de construtores
     Order(int id, char type, float price, int timestamp);
     ~Order();
 
