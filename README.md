@@ -32,7 +32,7 @@ Os dados são organizados em três estruturas principais:
 - array dinâmico de transações (`transactions`)
 
 ### Estrutura geral
-
+```
 OrderBook
 │
 ├── Buy Heap (max-heap)
@@ -46,7 +46,7 @@ OrderBook
 └── Transactions
 ├── Transaction*
 └── ...
-
+```
 
 - O heap de compras prioriza **maior preço**
 - O heap de vendas prioriza **menor preço**
@@ -91,17 +91,20 @@ Quando há compatibilidade entre as ordens:
 ### Heap de Compras (Max-Heap)
 
 Prioridade:
+```
 maior preço > menor preço
 empate → menor timestamp
+```
 
 ---
 
 ### Heap de Vendas (Min-Heap)
 
 Prioridade:
+```
 menor preço < maior preço
 empate → menor timestamp
-
+```
 
 ---
 
