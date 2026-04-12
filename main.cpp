@@ -2,6 +2,7 @@
 #include "Order.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int main(){
@@ -179,33 +180,35 @@ int main(){
     cout << (buy17 == nullptr) << endl;   // esperado: 1
 
     // Cenário stress test
-    cout << "\n=== Stress Test ===" << endl;
-    OrderBook ob_stress;
+    int volumes[] = {100000, 1000000, 10000000, 100000000};
 
-    // insere 10000 compras
-    for(int i = 1; i <= 10000; i++)
-        ob_stress.submit(Order(i, 'B', float(rand() % 1000), i));
+    for(int v = 0; v < 4; v++){
+        int vol = volumes[v];
+        cout << "\n=== Stress Test: " << vol << " ordens ===" << endl;
+        
+        OrderBook ob_stress;
+        clock_t start = clock();
 
-    // insere 10000 vendas — vai gerar muitas transações
-    for(int i = 10001; i <= 20000; i++)
-        ob_stress.submit(Order(i, 'S', float(rand() % 1000), i));
+        for(int i = 1; i <= vol; i++){
+            char type = (i % 2 == 0) ? 'B' : 'S';
+            ob_stress.submit(Order(i, type, float(rand() % 1000), i));
+        }
 
-    // cancela algumas ordens
-    for(int i = 1; i <= 100; i++)
-        ob_stress.cancel(i);
+        clock_t end = clock();
+        cout << "Tempo: " << (double)(end-start)/CLOCKS_PER_SEC << "s" << endl;
 
-    int n;
-    Order* buys = ob_stress.getBuyOrders(&n);
-    cout << "Compras restantes: " << n << endl;
-    delete[] buys;
+        int n;
+        Order* buys = ob_stress.getBuyOrders(&n);
+        cout << "Compras restantes: " << n << endl;
+        delete[] buys;
 
-    Order* sells = ob_stress.getSellOrders(&n);
-    cout << "Vendas restantes: " << n << endl;
-    delete[] sells;
+        Order* sells = ob_stress.getSellOrders(&n);
+        cout << "Vendas restantes: " << n << endl;
+        delete[] sells;
 
-    Transaction* trans = ob_stress.getTransactions(&n);
-    cout << "Transações executadas: " << n << endl;
-    delete[] trans;
-
+        Transaction* trans = ob_stress.getTransactions(&n);
+        cout << "Transações: " << n << endl;
+        delete[] trans;
+    }
     return 0;
 }

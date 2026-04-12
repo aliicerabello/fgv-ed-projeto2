@@ -40,12 +40,11 @@ void OrderBook::insertTransaction(Transaction* transaction_){
 
         for(int i = 0; i < transaction_size; i++){
             transactions_copy[i] = transactions[i];
-            transactions[i] = nullptr; // aponta para nullpointer para evitar que aponte para o mesmo
+            transactions[i] = nullptr;
         }
         delete[] transactions;
         transactions = transactions_copy;
     }
-
     // insert transaction
     transactions[transaction_size] = transaction_;
     transaction_size++;
@@ -63,7 +62,7 @@ void OrderBook::insertBuy(Order* order_){
 
         for(int i = 0; i < buy_size; i++){
             buy_orders_copy[i] = buy_orders[i];
-            buy_orders[i] = nullptr; // aponta para nullpointer para evitar que aponte para o mesmo
+            buy_orders[i] = nullptr;
         }
         delete[] buy_orders;
         buy_orders = buy_orders_copy;
@@ -76,7 +75,7 @@ void OrderBook::insertBuy(Order* order_){
 
 void OrderBook::siftUpBuy(int buy_size_){
     int child_i = buy_size_ - 1;
-    int parent_i = (buy_size_ - 1)/2; //verificar trunc
+    int parent_i = (buy_size_ - 1)/2;
 
     Order* child = buy_orders[child_i];
     Order* parent = buy_orders[parent_i];
@@ -110,15 +109,14 @@ bool OrderBook::priorityBuy(Order* child, Order* parent){
     return false;   
 }
 
-
-void OrderBook::siftDownBuy(int buy_size_, int start_i){ //adição do start_i pois precisamos dele pro cancel..qd fizemos inicialmente
-    // pensamos somente do caso da reorganização
+void OrderBook::siftDownBuy(int buy_size_, int start_i){
+    
     int parent_i = start_i;
     int left_child_i = 2*start_i + 1; int right_child_i = 2*start_i + 2;
 
-    buy_orders[parent_i] = buy_orders[buy_size_ - 1]; // last node turns into root
-    buy_orders[buy_size_ - 1] = nullptr; // o último passa a apontar pra nada pois o primeiro ja ocupou sua posição. sem delete pois o primeiro ainda usa.
-    buy_size_--; //reduzo o tamanho do array
+    buy_orders[parent_i] = buy_orders[buy_size_ - 1]; 
+    buy_orders[buy_size_ - 1] = nullptr; 
+    buy_size_--; 
 
     while(left_child_i < buy_size_){ 
         
@@ -141,7 +139,6 @@ void OrderBook::siftDownBuy(int buy_size_, int start_i){ //adição do start_i p
             else
                 break;
         }
-        
         else{
             if(priorityBuy(left_child, parent)){
             // sift down buy orders
@@ -171,7 +168,7 @@ void OrderBook::insertSell(Order* order_){
 
         for(int i = 0; i < sell_size; i++){
             sell_orders_copy[i] = sell_orders[i];
-            sell_orders[i] = nullptr; // aponta para nullpointer para evitar que aponte para o mesmo
+            sell_orders[i] = nullptr;
         }
         delete[] sell_orders;
         sell_orders = sell_orders_copy;
@@ -184,7 +181,7 @@ void OrderBook::insertSell(Order* order_){
 
 void OrderBook::siftUpSell(int sell_size_){
     int child_i = sell_size_ - 1;
-    int parent_i = (sell_size_ - 1)/2; // truncamento ok!
+    int parent_i = (sell_size_ - 1)/2;
 
     Order* child = sell_orders[child_i];
     Order* parent = sell_orders[parent_i];
@@ -217,26 +214,15 @@ bool OrderBook::prioritySell(Order* child, Order* parent){
     
     return false;   
 }
-/*
-*
-*
-* O array linear é enxergado como uma árvore numerada da esquerda pra direita. 
-* O último nó é posicionado como raiz da árvore, i.e., ocupa o início da lista.
-* A condição de parada é a existência de um filho à esquerda.
-* São feitas as verificações de existência do filho à direita, da prioridade com
-* relação ao filho à esquerda e da prioridade com relação ao pai. 
-* A troca é feita, se tudo for verificado. 
-* Do contrário, são feitas as mesmas verifcações para o filho à esquerda.
-* Os índices são atualizados ao final de cada operação.
-*/
+
 void OrderBook::siftDownSell(int sell_size_, int start_i){
 
     int parent_i = start_i;
     int left_child_i = 2*start_i + 1; int right_child_i = 2*start_i + 2;
 
-    sell_orders[parent_i] = sell_orders[sell_size_ - 1]; // last node turns into root
-    sell_orders[sell_size_ - 1] = nullptr; // o último passa a apontar pra nada pois o primeiro ja ocupou sua posição. sem delete pois o primeiro ainda usa.
-    sell_size_--; //reduzo O PARAMETRO DE COMPARAÇÃO E NÃO O TAMANHO do array
+    sell_orders[parent_i] = sell_orders[sell_size_ - 1];
+    sell_orders[sell_size_ - 1] = nullptr; // first sell points to last
+    sell_size_--; 
 
     while(left_child_i < sell_size_){ 
         
@@ -320,7 +306,7 @@ bool OrderBook::submit(Order order_){
             if(order_price <= top_buy_price){
                 Transaction* transaction = new Transaction(top_buy_id, order_id, top_buy_price);
                 insertTransaction(transaction);
-                siftDownBuy(buy_size, 0); buy_size--; //veja que a siftDown não mexe diretamente com o tamanho do array
+                siftDownBuy(buy_size, 0); buy_size--; 
                 order = nullptr; transaction = nullptr;
                 return true;
             }
