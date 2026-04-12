@@ -202,4 +202,4 @@ O arquivo `main.cpp` contém cenários de teste para:
 
 ```bash
 g++ -Wall -Wextra -Werror -Wshadow -Wpedantic -Wconversion -std=c++17 \
-main.cpp OrderBook.cpp Order.cpp Transaction.cpp -o orderbook
+main.cpp OrderBook.cpp Order.cpp Transaction.cpp -o order_book
